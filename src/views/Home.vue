@@ -1,18 +1,33 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+<div>
+  <v-toolbar dark color="grey">
+    <v-icon>home</v-icon>
+    <v-toolbar-title class="white--text">Home</v-toolbar-title>
+
+    <v-spacer></v-spacer>
+
+    <v-btn icon>
+      <v-icon>settings</v-icon>
+    </v-btn>
+  </v-toolbar>
+
+</div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+
+import { NutritionAPI } from '../api/nutrition';
 
 @Component({
   components: {
-    HelloWorld,
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+
+  private api: NutritionAPI = new NutritionAPI();
+  public mounted() {
+    this.api.getSearchItems('cheese').then(res => this.api.getItem(res[0].resource_id)).then(res => console.log(res));
+  }
+}
 </script>
