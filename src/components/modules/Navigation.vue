@@ -9,6 +9,7 @@
       :direction="direction"
       :open-on-hover="hover"
       :transition="transition"
+      :fixed="true"
     >
       <template v-slot:activator>
         <v-btn
@@ -75,6 +76,9 @@
             </router-link>
         </v-btn>
     </v-speed-dial>
+    <transition name="slide-y-reverse-transition">
+      <div class="overlay" v-if="fab" @click="fab = !fab"></div>
+    </transition>
   </v-card>
 </template>
 
@@ -96,8 +100,13 @@
 
 <style lang="scss">
 #create {
-    .v-speed-dial {
-        position: absolute;
+    z-index: 1000;
+    .overlay {
+      position: fixed;
+      top: 0;
+      height: 100vh;
+      width: 100vw;
+      background: rgba(255, 255, 255, .5);
     }
     .v-btn--floating {
         position: relative;
