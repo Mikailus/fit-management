@@ -1,17 +1,16 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { showLoader } from '@/shared/decorators';
 
 import IHeaders from '../models/nutrition/headers.model';
 import ISearchItem from '../models/nutrition/search-item.model';
-
-const appKey: string = 'c532964ba75dd29c3677acb76304d140';
-const appID: string = '049a1bb4';
+import { appKey, appID } from '../../credentials';
 
 enum API_ENDPOINTS {
     SEARCH = 'https://api.nutritionix.com/v2/search',
     ITEM = 'https://api.nutritionix.com/v2/item'
 }
 
-export class NutritionAPI {
+export class NutritionAPI { 
     private get headers(): IHeaders {
         return {
             'x-app-id': appID,
@@ -19,7 +18,8 @@ export class NutritionAPI {
         };
     }
 
-    public getSearchItems(query: string): Promise<ISearchItem[]> {
+    @showLoader
+    public async getSearchItems(query: string): Promise<ISearchItem[]> {
         const config: AxiosRequestConfig = {
             params: {
                 q: query,
@@ -29,7 +29,8 @@ export class NutritionAPI {
         return axios.get(API_ENDPOINTS.SEARCH, config).then((result: any) => result.data.results);
     }
 
-    public getItem(id: string): Promise<any> {
+    @showLoader
+    public async getItem(id: string): Promise<any> {
         const config: AxiosRequestConfig = {
             headers: this.headers,
         };
