@@ -69,7 +69,7 @@ export default class Nutrition extends Vue {
       moment().subtract(1, 'day'),
       moment(new Date()),
       moment().add(1, 'day'),
-    ]
+    ];
   }
 
   onDatePickerChange(val: string) {
