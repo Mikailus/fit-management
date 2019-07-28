@@ -1,6 +1,6 @@
-import {Commit, Dispatch } from 'vuex/types';
+import {Commit, Dispatch, ActionTree } from 'vuex/types';
 
-export const actions = {
+export const actions: ActionTree<any, any> = {
     async showLoader({dispatch, commit}: {dispatch: Dispatch, commit: Commit}) {
         await dispatch('increaseLoadingPoll');
         commit('showLoading');
