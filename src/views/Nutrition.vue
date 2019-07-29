@@ -13,27 +13,24 @@
 
     <div class="full-height full-width header">
       <v-tabs
-        class="full-height"
         v-model="active"
-        color="green"
         dark
+        color="green"
+        slider-color="yellow"
         centered
-        @change="onActiveTabChange"
-        slider-color="yellow">
+        class="full-height"
+        @change="onActiveTabChange">
         <v-tab
           v-for="(day, index) in days"
           :key="index"
-          ripple
-        >
+          ripple>
           {{ day.format("ddd, DD-MM") }}
-
         </v-tab>
-        <v-tabs-items v-model="active">
+        <v-tabs-items>
           <v-tab-item
-            v-for="n in days.length"
-            :key="compDays[n]"
-          >
-            <daily-intake :day="days[1]"></daily-intake>
+            v-for="(day, index) in days"
+            :key="index">
+            <daily-intake v-if="index === centerTabPosition" :day="days[centerTabPosition]"></daily-intake>
           </v-tab-item>
         </v-tabs-items>
       </v-tabs>
@@ -51,41 +48,44 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import moment, { Moment } from 'moment';
+
 import DailyIntake from '../components/modules/nutrition/DailyIntake.vue';
 
 @Component({
   components: {
     'daily-intake': DailyIntake,
-  },
+  }
 })
 export default class Nutrition extends Vue {
-  active: number = 1;
+  centerTabPosition: number = 1;
+  active: number = this.centerTabPosition;
   days: Moment[] = [];
   picker = moment(new Date()).format("YYYY-MM-DD");
   openDatePicker = false;
-  compDays: string[] = [];
   created() {
+    this.generateDays(moment(new Date()));
+  }
+
+  onDatePickerChange(strDate: string) {
+    this.openDatePicker = false;
+    this.generateDays(moment(strDate));
+  }
+
+  onActiveTabChange(tabNumber: number) {
+    const newDate = moment(this.days[tabNumber]);
+    this.generateDays(newDate);
+    this.picker = this.days[this.centerTabPosition].format("YYYY-MM-DD");
+    
+    // Hack for having always highlighted second tab
+    setTimeout(() => this.active = this.centerTabPosition, 0);
+  }
+
+  generateDays(centerDate: Moment) {
     this.days = [
-      moment().subtract(1, 'day'),
-      moment(new Date()),
-      moment().add(1, 'day'),
+      moment(centerDate).subtract(1, 'day'),
+      centerDate,
+      moment(centerDate).add(1, 'day'),
     ];
-  }
-
-  onDatePickerChange(val: string) {
-    setTimeout(() => this.active = 1, 0);
-    this.days = [
-      moment(val).subtract(1, 'day'),
-      moment(val),
-      moment(val).add(1, 'day'),
-    ]
-
-    this.compDays = this.days.map(day => day.format("ddd, DD-MM"));
-  }
-
-  onActiveTabChange(val: number) {
-    this.picker = this.days[val].format("YYYY-MM-DD");
-    this.onDatePickerChange(this.picker);
   }
 }
 </script>
