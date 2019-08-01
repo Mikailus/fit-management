@@ -96,6 +96,7 @@ export default class Nutrition extends Vue {
     z-index: 10;
     top: 0;
     height: 100%;
+    width: 100%;
   }
 
   .view-container {
