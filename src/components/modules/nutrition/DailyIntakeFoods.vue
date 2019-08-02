@@ -2,30 +2,30 @@
     <v-expand-transition>
         <v-list two-line v-show="expand">
             <template v-for="n in 4">
-                <v-list-tile :key="n">
-                    <v-list-tile-content>
-                        <v-list-tile-title>
+                <v-list-item :key="n">
+                    <v-list-item-content>
+                        <v-list-item-title>
                             <div class="title-container">
                                 <span>Food name</span>
                                 <span>123 g</span>
                             </div>
-                        </v-list-tile-title>
+                        </v-list-item-title>
                         <div class="nutritients-container">
-                            <v-list-tile-sub-title>
+                            <v-list-item-subtitle>
                                 Calories
-                            </v-list-tile-sub-title>
-                            <v-list-tile-sub-title>
+                            </v-list-item-subtitle>
+                            <v-list-item-subtitle>
                                 Carbs
-                            </v-list-tile-sub-title>
-                            <v-list-tile-sub-title>
+                            </v-list-item-subtitle>
+                            <v-list-item-subtitle>
                                 Fat
-                            </v-list-tile-sub-title>
-                            <v-list-tile-sub-title>
+                            </v-list-item-subtitle>
+                            <v-list-item-subtitle>
                                 Protein
-                            </v-list-tile-sub-title>
+                            </v-list-item-subtitle>
                         </div>
-                    </v-list-tile-content>
-                </v-list-tile>
+                    </v-list-item-content>
+                </v-list-item>
             </template>
         </v-list>
     </v-expand-transition>

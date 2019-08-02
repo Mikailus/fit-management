@@ -19,8 +19,8 @@
           fab
           class="menu-button"
         >
-          <v-icon>menu</v-icon>
-          <v-icon>close</v-icon>
+          <v-icon v-if="!fab">menu</v-icon>
+          <v-icon v-else>close</v-icon>
         </v-btn>
       </template>
         <v-btn
