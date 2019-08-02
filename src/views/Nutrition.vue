@@ -15,21 +15,26 @@
       <v-tabs
         v-model="active"
         dark
-        color="green"
-        slider-color="yellow"
         centered
+        :grow="true"
+        background-color="green"
+        slider-color="yellow"
         class="full-height"
         @change="onActiveTabChange">
+
+        <v-tabs-slider></v-tabs-slider>
         <v-tab
           v-for="(day, index) in days"
           :key="index"
+          class="centered"
           ripple>
           {{ day.format("ddd, DD-MM") }}
         </v-tab>
-        <v-tabs-items>
+        <v-tabs-items v-model="active">
           <v-tab-item
             v-for="(day, index) in days"
-            :key="index">
+            :key="index"
+            >
             <daily-intake v-if="index === centerTabPosition" :day="days[centerTabPosition]"></daily-intake>
           </v-tab-item>
         </v-tabs-items>
@@ -113,5 +118,15 @@ export default class Nutrition extends Vue {
 
   .header {
     position: relative;
+  }
+
+  .centered {
+    margin: 0 auto;
+  }
+</style>
+
+<style>
+  .v-tab {
+    margin: 0 !important;
   }
 </style>
