@@ -16,10 +16,10 @@
       </thead>
       <tbody>
         <tr>
-          <td class="centered-text">1233 kcal</td>
-          <td class="centered-text">123 g</td>
-          <td class="centered-text">321 g</td>
-          <td class="centered-text">345 g</td>
+          <td class="centered-text">{{ summary.calories | cutDigits }} kcal</td>
+          <td class="centered-text">{{ summary.carbs | cutDigits }} g</td>
+          <td class="centered-text">{{ summary.fat | cutDigits }} g</td>
+          <td class="centered-text">{{ summary.protein | cutDigits }} g</td>
         </tr>
       </tbody>
     </table>
@@ -28,15 +28,53 @@
 
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import moment, { Moment } from 'moment';
 import DailyIntake from '../components/modules/nutrition/DailyIntake.vue';
+import { IDailyIntake, Meal, Food } from '../../../models/nutrition';
+import { cutDigits } from '../../../filters';
 
 @Component({
-  components: {
+  filters: {
+    cutDigits: cutDigits
   },
 })
 export default class DailyIntakeSummary extends Vue {
+  @Prop({default: undefined}) intake!: IDailyIntake;
+
+  get summary() {
+    return this.intake.meals.reduce((prev, meal) => {
+      return {
+        calories: prev.calories + calculateTotalIntakeForFood(meal.foods).calories,
+        carbs: prev.carbs + calculateTotalIntakeForFood(meal.foods).carbs,
+        fat: prev.fat + calculateTotalIntakeForFood(meal.foods).fat,
+        protein: prev.protein + calculateTotalIntakeForFood(meal.foods).protein
+      }
+      ;
+    }, {
+    calories: 0,
+    carbs: 0,
+    fat: 0,
+    protein: 0
+  }
+    )
+  }
+}
+
+function calculateTotalIntakeForFood(foods: Food[]) {
+  return foods.reduce((prev, food) => {
+    return {
+      calories: prev.calories + food.caloriesPerPortion * food.numberOfPortions,
+      carbs: prev.carbs + food.carbsPerPortion * food.numberOfPortions,
+      fat: prev.fat + food.fatPerPortion * food.numberOfPortions,
+      protein: prev.protein + food.proteinPerPortion * food.numberOfPortions,
+    }
+  }, {
+    calories: 0,
+    carbs: 0,
+    fat: 0,
+    protein: 0
+  });
 }
 </script>
 

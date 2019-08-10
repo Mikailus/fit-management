@@ -1,6 +1,6 @@
 <template>
     <v-toolbar height="40" flat dark color="rgba(76, 175, 80, .85)">
-        <v-toolbar-title class="meal-title">Breakfast</v-toolbar-title>
+        <v-toolbar-title class="meal-title">{{ name }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon @click="$emit('toggleTab', !expand)">
             <v-icon :class="expand ? 'rotated' : ''">expand_more</v-icon>
@@ -30,6 +30,7 @@ import {Vue, Component, Prop} from 'vue-property-decorator';
 })
 export default class DailyIntakeMealHeader extends Vue {
     @Prop({default: false}) expand!: boolean;
+    @Prop({default: ''}) name!: string;
 }
 </script>
 
