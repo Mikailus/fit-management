@@ -1,4 +1,4 @@
-export default interface ISearchItem {
+export interface ISearchItem {
     brand_name: string;
     item_name: string;
     nutrient_name: string;

@@ -11,7 +11,7 @@
       </v-btn>
     </v-toolbar>
 
-    <div class="full-height full-width header">
+    <div class="full-width header">
       <v-tabs
         v-model="active"
         dark
@@ -19,23 +19,28 @@
         :grow="true"
         background-color="green"
         slider-color="yellow"
-        class="full-height"
-        @change="onActiveTabChange">
+        class="full-height">
 
         <v-tabs-slider></v-tabs-slider>
-        <v-tab
+        <router-link
           v-for="(day, index) in days"
           :key="index"
-          class="centered"
-          ripple>
-          {{ day.format("ddd, DD-MM") }}
-        </v-tab>
-        <v-tabs-items v-model="active">
+          :to="{name: 'intake', params: {day: day.format('YYYY-MM-DD')}}"
+          tag="div">
+          <v-tab
+            class="centered"
+            ripple>
+            {{ day.format("ddd, DD-MM") }}
+          </v-tab>
+        </router-link>
+        <v-tabs-items v-model="active" @change="onSwipe">
           <v-tab-item
             v-for="(day, index) in days"
             :key="index"
             >
-            <daily-intake v-if="index === centerTabPosition" :day="days[centerTabPosition]"></daily-intake>
+            <div v-if="index === centerTabPosition">
+              <router-view></router-view>
+            </div>
           </v-tab-item>
         </v-tabs-items>
       </v-tabs>
@@ -68,29 +73,32 @@ export default class Nutrition extends Vue {
   picker = moment(new Date()).format("YYYY-MM-DD");
   openDatePicker = false;
   created() {
-    this.generateDays(moment(new Date()));
+    this.generateDays(moment(new Date(this.$route.params.day)));
   }
 
-  onDatePickerChange(strDate: string) {
+  public onDatePickerChange(strDate: string) {
     this.openDatePicker = false;
     this.generateDays(moment(strDate));
   }
 
-  onActiveTabChange(tabNumber: number) {
-    const newDate = moment(this.days[tabNumber]);
-    this.generateDays(newDate);
-    this.picker = this.days[this.centerTabPosition].format("YYYY-MM-DD");
-    
-    // Hack for having always highlighted second tab
-    setTimeout(() => this.active = this.centerTabPosition, 0);
+  public onSwipe(tabNumber: number) {
+    this.$router.push({name: 'intake', params: {day: this.days[tabNumber].format('YYYY-MM-DD')}});
   }
 
-  generateDays(centerDate: Moment) {
+  private generateDays(centerDate: Moment) {
     this.days = [
       moment(centerDate).subtract(1, 'day'),
       centerDate,
       moment(centerDate).add(1, 'day'),
     ];
+  }
+
+  @Watch('$route')
+  private onRouteChange({params}: {params: any}) {
+    this.generateDays(moment(new Date(params.day)));
+    this.picker = this.days[this.centerTabPosition].format("YYYY-MM-DD");
+    // Hack for having always highlighted second tab
+    setTimeout(() => this.active = this.centerTabPosition, 0);
   }
 }
 </script>

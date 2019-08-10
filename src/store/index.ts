@@ -3,11 +3,12 @@ import Vuex, { StoreOptions } from 'vuex';
 import { actions } from './actions';
 import { mutations } from './mutations';
 import { toastModule } from './modules/toast';
+import { nutritionModule } from './modules/nutrition';
 
 Vue.use(Vuex);
 
 const store: StoreOptions<any> = {
-    modules: {toastModule},
+    modules: {toastModule, nutritionModule},
     actions,
     state: {
         isLoading: false,
