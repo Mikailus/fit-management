@@ -6,10 +6,12 @@ import store from './store';
 
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
+import { LocalForage } from './plugins/local-forage';
 
 Vue.config.productionTip = false;
 Vue.use(Vuex);
 Vue.use(Vuetify);
+Vue.use(LocalForage);
 
 new Vue({
   store,
