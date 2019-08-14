@@ -1,16 +1,26 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import localForage from 'localforage';
 import { showLoader } from '@/shared/decorators';
 
-import IHeaders from '../models/nutrition/headers.model';
-import ISearchItem from '../models/nutrition/search-item.model';
 import { appKey, appID } from '../../credentials';
+import { IDailyIntake, ISearchItem, IHeaders } from '../models/nutrition';
+
+import { dailyIntake } from '@/mocks/daily-intake';
 
 enum API_ENDPOINTS {
     SEARCH = 'https://api.nutritionix.com/v2/search',
     ITEM = 'https://api.nutritionix.com/v2/item'
 }
 
-export class NutritionAPI { 
+export class NutritionAPI {
+    private static localForageStore: LocalForage;
+
+    constructor() {
+        NutritionAPI.localForageStore = localForage.createInstance({name: 'nutritionDatabase'});
+        NutritionAPI.localForageStore.setItem('2019-08-13', dailyIntake('2019-08-13'));
+        NutritionAPI.localForageStore.setItem('2019-08-14', dailyIntake('2019-08-14'));
+    }
+
     private get headers(): IHeaders {
         return {
             'x-app-id': appID,
@@ -35,5 +45,10 @@ export class NutritionAPI {
             headers: this.headers,
         };
         return axios.get(`${API_ENDPOINTS.ITEM}/${id}`, config);
+    }
+
+    @showLoader
+    public async getMock(day: string): Promise<IDailyIntake> {
+        return NutritionAPI.localForageStore.getItem(day);
     }
 }

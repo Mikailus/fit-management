@@ -1,8 +1,13 @@
 <template>
-    <div v-if="intake">
-        <daily-intake-summary :intake="intake"></daily-intake-summary>
-        <daily-intake-meal v-for="meal in intake.meals" :key="meal.id" :meal="meal"></daily-intake-meal>
-    </div>
+  <div>
+      <div v-if="currentIntake">
+          <daily-intake-summary :intake="currentIntake"></daily-intake-summary>
+          <daily-intake-meal v-for="meal in currentIntake.meals" :key="meal.id" :meal="meal"></daily-intake-meal>
+      </div>
+      <div v-if="!currentIntake">
+        There are not any intake reported in this day.
+      </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -10,11 +15,11 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import moment, { Moment } from 'moment';
 import { mapState } from 'vuex'
 
-import { NutritionAPI } from '../../../api/nutrition';
+import { NutritionAPI } from '../api/nutrition';
 
 import DailyIntakeMeal from './DailyIntakeMeal.vue';
 import DailyIntakeSummary from './DailyIntakeSummary.vue';
-import { IDailyIntake } from '../../../models/nutrition';
+import { IDailyIntake } from '../models/nutrition';
 
 @Component({
   components: {
@@ -22,7 +27,7 @@ import { IDailyIntake } from '../../../models/nutrition';
     'daily-intake-summary': DailyIntakeSummary
   },
   computed: {
-    ...mapState('nutritionModule', ['intake'])
+    ...mapState('nutritionModule', ['currentIntake'])
   }
 })
 export default class DailyIntake extends Vue {
