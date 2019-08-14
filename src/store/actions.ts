@@ -14,5 +14,5 @@ export const actions: ActionTree<any, any> = {
     },
     async decreaseLoadingPoll({commit}: {dispatch: Dispatch, commit: Commit}) {
         commit('decreaseLoadingPoll');
-    }
-}
+    },
+};

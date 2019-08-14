@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@types/jest": "^23.1.4",
+    "@types/localforage": "0.0.34",
     "@vue/cli-plugin-babel": "^3.7.0",
     "@vue/cli-plugin-typescript": "^3.7.0",
     "@vue/cli-plugin-unit-jest": "^3.7.0",

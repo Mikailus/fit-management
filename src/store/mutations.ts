@@ -1,4 +1,6 @@
-export const mutations = {
+import { MutationTree } from 'vuex';
+
+export const mutations: MutationTree<any> = {
     showLoading(state: any) {
         state.isLoading = state.loadingPoll > 0 ? true : false;
     },
@@ -10,5 +12,5 @@ export const mutations = {
     },
     decreaseLoadingPoll(state: any) {
         state.loadingPoll -= 1;
-    }
-}
+    },
+};
