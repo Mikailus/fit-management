@@ -1,15 +1,16 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import moment from 'moment';
+
+import { basicDateFormat } from './utils/date-format';
 
 import Home from './views/Home.vue';
 import Nutrition from './views/Nutrition.vue';
 import Training from './views/Training.vue';
 import Calendar from './views/Calendar.vue';
 import Weather from './views/Weather.vue';
-
-import DailyIntake from './components/modules/nutrition/DailyIntake.vue';
-
-import moment from 'moment';
+import DailyIntake from './views/DailyIntake.vue';
+import AddFood from './views/AddFood.vue';
 
 Vue.use(Router);
 
@@ -33,12 +34,17 @@ export default new Router({
           component: DailyIntake,
         },
         {
+          path: 'days/:day/:meal/add',
+          name: 'add-food',
+          component: AddFood,
+        },
+        {
           path: '/',
           redirect: {
             name: 'intake',
             params: {
-              day: `${moment(new Date()).format('YYYY-MM-DD')}`
-            }
+              day: `${moment(new Date()).format(basicDateFormat)}`,
+            },
           },
         },
       ],

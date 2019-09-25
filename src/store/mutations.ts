@@ -1,16 +1,18 @@
 import { MutationTree } from 'vuex';
 
-export const mutations: MutationTree<any> = {
-    showLoading(state: any) {
-        state.isLoading = state.loadingPoll > 0 ? true : false;
+import { RootState } from '@/models/store/root-state.interface';
+
+export const mutations: MutationTree<RootState> = {
+    showLoading(state: RootState) {
+        state.isLoading = state.loadingPoll > 0;
     },
-    hideLoading(state: any) {
-        state.isLoading = state.loadingPoll === 0 ? false : true;
+    hideLoading(state: RootState) {
+        state.isLoading = state.loadingPoll !== 0;
     },
-    increaseLoadingPoll(state: any) {
+    increaseLoadingPoll(state: RootState) {
         state.loadingPoll += 1;
     },
-    decreaseLoadingPoll(state: any) {
+    decreaseLoadingPoll(state: RootState) {
         state.loadingPoll -= 1;
     },
 };

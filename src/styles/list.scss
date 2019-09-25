@@ -1,0 +1,14 @@
+.title-container {
+    display: flex;
+    justify-content: space-between
+}
+
+.subtitle-container {
+    display: flex;
+    width: 100%;
+
+    &--vertical {
+        display: flex;
+        flex-direction: column;
+    }
+}

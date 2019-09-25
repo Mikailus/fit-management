@@ -4,7 +4,7 @@
           class="toast-overflow"
           :style="{top: (index*60+ 20) +'px'}"
           :key="notification.id">
-        <ToastElement :notification="notification"/>
+      <ToastElement :notification="notification"/>
     </div>
   </div>
 </template>

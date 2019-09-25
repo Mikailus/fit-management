@@ -6,5 +6,6 @@ export interface Food {
     fatPerPortion: number;
     proteinPerPortion: number;
     portion: number;
+    portionUnit: string;
     numberOfPortions: number;
 }

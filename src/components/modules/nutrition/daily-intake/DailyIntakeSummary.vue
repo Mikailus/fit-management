@@ -30,9 +30,12 @@
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
 import moment, { Moment } from 'moment';
-import DailyIntake from '../components/modules/nutrition/DailyIntake.vue';
-import { IDailyIntake, Meal, Food } from '../../../models/nutrition';
-import { cutDigits } from '../../../filters';
+
+import { cutDigits } from '@/filters';
+
+import DailyIntake from '@/components/modules/nutrition/DailyIntake.vue';
+
+import { IDailyIntake, Meal, Food } from '@/models/nutrition';
 
 @Component({
   filters: {

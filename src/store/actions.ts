@@ -1,6 +1,8 @@
 import {Commit, Dispatch, ActionTree } from 'vuex/types';
 
-export const actions: ActionTree<any, any> = {
+import { RootState } from '@/models/store/root-state.interface';
+
+export const actions: ActionTree<RootState, RootState> = {
     async showLoader({dispatch, commit}: {dispatch: Dispatch, commit: Commit}) {
         await dispatch('increaseLoadingPoll');
         commit('showLoading');

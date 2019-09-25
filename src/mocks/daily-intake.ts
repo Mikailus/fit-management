@@ -1,8 +1,11 @@
+import uuid from 'uuid';
+
 import { IDailyIntake } from '@/models/nutrition';
 export const dailyIntake = (day: string): IDailyIntake => {
+    console.log('Mock for daily intake,', day);
     return {
-        id: day,
-        day: new Date(),
+        id: uuid(),
+        day,
         meals: [
             {
                 id: '1',
@@ -113,5 +116,5 @@ export const dailyIntake = (day: string): IDailyIntake => {
                 ],
             },
         ],
-    };
+    }as any;
 };

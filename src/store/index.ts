@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
+
+import { RootState } from '@/models/store/root-state.interface';
 import { actions } from './actions';
 import { mutations } from './mutations';
 import { toastModule } from './modules/toast';
@@ -7,7 +9,7 @@ import { nutritionModule } from './modules/nutrition';
 
 Vue.use(Vuex);
 
-const store: StoreOptions<any> = {
+const store: StoreOptions<RootState> = {
     modules: {toastModule, nutritionModule},
     actions,
     state: {
@@ -15,9 +17,9 @@ const store: StoreOptions<any> = {
         loadingPoll: 0,
     },
     getters: {
-        isLoading: (state: any) => state.isLoading,
+        isLoading: (state: RootState) => state.isLoading,
       },
     mutations,
 };
 
-export default new Vuex.Store<any>(store);
+export default new Vuex.Store<RootState>(store);
