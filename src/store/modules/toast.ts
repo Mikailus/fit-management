@@ -1,16 +1,18 @@
-import { Commit, Dispatch } from 'vuex/types';
-import { ToastNotification } from '@/models/toast-notification.interface';
+import { Commit, Dispatch, Module } from 'vuex/types';
 
-export const toastModule = {
+import { ToastNotification } from '@/models/toast-notification.interface';
+import { RootState, ToastState } from '@/models/store';
+
+export const toastModule: Module<ToastState, RootState> = {
     namespaced: true,
     state: {
         notifications: [],
     },
     mutations: {
-        displayNotification(state: any, payload: ToastNotification) {
+        displayNotification(state: ToastState, payload: ToastNotification) {
             state.notifications = [...state.notifications, {...payload, id: Symbol()}];
         },
-        removeNotification(state: any) {
+        removeNotification(state: ToastState) {
             const notifications = [...state.notifications];
             notifications.shift();
             state.notifications = [...notifications];

@@ -1,10 +1,10 @@
 <template>
   <div>
-      <div v-if="currentIntake">
+      <div v-if="Object.keys(currentIntake).length">
           <daily-intake-summary :intake="currentIntake"></daily-intake-summary>
           <daily-intake-meal v-for="meal in currentIntake.meals" :key="meal.id" :meal="meal"></daily-intake-meal>
       </div>
-      <div v-if="!currentIntake">
+      <div v-else>
         There are not any intake reported in this day.
       </div>
   </div>
@@ -15,11 +15,12 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import moment, { Moment } from 'moment';
 import { mapState } from 'vuex'
 
-import { NutritionAPI } from '../api/nutrition';
+import { NutritionAPI } from '@/api/nutrition';
 
-import DailyIntakeMeal from './DailyIntakeMeal.vue';
-import DailyIntakeSummary from './DailyIntakeSummary.vue';
-import { IDailyIntake } from '../models/nutrition';
+import DailyIntakeMeal from '@/components/modules/nutrition/daily-intake/DailyIntakeMeal.vue';
+import DailyIntakeSummary from '@/components/modules/nutrition/daily-intake/DailyIntakeSummary.vue';
+
+import { IDailyIntake } from '@/models/nutrition';
 
 @Component({
   components: {
@@ -31,7 +32,7 @@ import { IDailyIntake } from '../models/nutrition';
   }
 })
 export default class DailyIntake extends Vue {
-  @Prop({default: undefined}) day!: Moment;
+  @Prop({ default: undefined }) day!: Moment;
 
   @Watch('$route', {immediate: true})
   async onRouteChange({params}: {params: any}) {
@@ -42,5 +43,4 @@ export default class DailyIntake extends Vue {
 </script>
 
 <style lang="scss" scoped>
-
 </style>

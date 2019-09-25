@@ -1,15 +1,15 @@
 <template>
-    <div class="snackbar-wrapper">
-        <transition name="scale-transition" appear>
-            <v-snackbar
-                :absolute="true"
-                :value="true"
-                :top="true"
-                :color="notification.color">
-                {{ notification.text }}
-            </v-snackbar>
-        </transition>
-    </div>
+  <div class="snackbar-wrapper">
+    <transition name="scale-transition" appear>
+      <v-snackbar
+        :absolute="true"
+        :value="true"
+        :top="true"
+        :color="notification.color">
+        {{ notification.text }}
+      </v-snackbar>
+    </transition>
+  </div>
 </template>
 
 <script lang="ts">
@@ -26,11 +26,11 @@ export default class ToastElement extends Vue {
 
 <style lang="scss">
   .v-snack__wrapper {
-      border-radius: 7px;
+    border-radius: 7px;
   }
   .snackbar-wrapper {
-      position: relative;
-      width: 170px;
+    position: relative;
+    width: 170px;
   }
 </style>
 

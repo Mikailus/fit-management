@@ -42,6 +42,6 @@ export default class Loader extends Vue {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(255, 255, 255, .4);
+  background: rgba(255, 255, 255, 0.4);
 }
 </style>

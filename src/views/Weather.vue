@@ -19,10 +19,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 
-@Component({
-  components: {
-  },
-})
+@Component({})
 export default class Weather extends Vue {
 
 }

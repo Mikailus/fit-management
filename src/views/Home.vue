@@ -19,15 +19,7 @@ import { Component, Vue } from 'vue-property-decorator';
 
 import { NutritionAPI } from '../api/nutrition';
 
-@Component({
-  components: {
-  },
-})
+@Component({})
 export default class Home extends Vue {
-
-  private api: NutritionAPI = new NutritionAPI();
-  public mounted() {
-    this.api.getSearchItems('cheese').then(res => this.api.getItem(res[0].resource_id)).then(res => console.log(res));
-  }
 }
 </script>

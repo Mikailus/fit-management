@@ -34,14 +34,18 @@
           </v-tab>
         </router-link>
         <v-tabs-items v-model="active" @change="onSwipe">
-          <v-tab-item
+          <div
             v-for="(day, index) in days"
+            v-touch="{
+              left: () => onSwipe(index + 1),
+              right: () => onSwipe(index - 1)
+            }"
             :key="index"
             >
             <div v-if="index === centerTabPosition">
               <router-view></router-view>
             </div>
-          </v-tab-item>
+          </div>
         </v-tabs-items>
       </v-tabs>
 
@@ -58,19 +62,14 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import moment, { Moment } from 'moment';
+import { basicDateFormat } from '@/utils/date-format';
 
-import DailyIntake from '../components/modules/nutrition/DailyIntake.vue';
-
-@Component({
-  components: {
-    'daily-intake': DailyIntake,
-  }
-})
+@Component({})
 export default class Nutrition extends Vue {
   centerTabPosition: number = 1;
   active: number = this.centerTabPosition;
   days: Moment[] = [];
-  picker = moment(new Date()).format("YYYY-MM-DD");
+  picker = moment(new Date()).format(basicDateFormat);
   openDatePicker = false;
   created() {
     this.generateDays(moment(new Date(this.$route.params.day)));
@@ -79,10 +78,11 @@ export default class Nutrition extends Vue {
   public onDatePickerChange(strDate: string) {
     this.openDatePicker = false;
     this.generateDays(moment(strDate));
+    this.$router.push({name: 'intake', params: {day: strDate}});
   }
 
   public onSwipe(tabNumber: number) {
-    this.$router.push({name: 'intake', params: {day: this.days[tabNumber].format('YYYY-MM-DD')}});
+    this.$router.push({name: 'intake', params: {day: this.days[tabNumber].format(basicDateFormat)}});
   }
 
   private generateDays(centerDate: Moment) {
@@ -96,7 +96,7 @@ export default class Nutrition extends Vue {
   @Watch('$route')
   private onRouteChange({params}: {params: any}) {
     this.generateDays(moment(new Date(params.day)));
-    this.picker = this.days[this.centerTabPosition].format("YYYY-MM-DD");
+    this.picker = this.days[this.centerTabPosition].format(basicDateFormat);
     // Hack for having always highlighted second tab
     setTimeout(() => this.active = this.centerTabPosition, 0);
   }
